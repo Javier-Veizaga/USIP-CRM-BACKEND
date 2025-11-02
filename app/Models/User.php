@@ -29,7 +29,6 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        // 'email_verified_at' => 'datetime', // si lo usas
         'is_active' => 'boolean',
     ];
 
