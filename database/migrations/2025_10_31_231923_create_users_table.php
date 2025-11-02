@@ -6,39 +6,39 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            // Clave Primaria y Autoincremental
-            $table->id(); // Crea un INT(PK, AUTO_INCREMENT)
-            
-            // Información Personal
-            $table->string('first_name', 50)->notNullable();
-            $table->string('last_name', 50)->notNullable();
-            $table->string('maternal_last_name', 50)->nullable(); 
-            
-            // Credenciales y Contacto
-            $table->string('email', 120)->unique()->notNullable();
-            $table->string('password_hash', 255)->notNullable();
-            $table->string('phone', 20)->unique()->notNullable();
+            // PK (bigint unsigned)
+            $table->id();
 
-            // Rol y Estado
-            $table->unsignedInteger('role_id')->notNullable(); 
-            $table->boolean('is_active')->notNullable()->default(true);
-            
-            // Tiempos de Auditoría
-            $table->timestamps();            
-            // Definición de la Clave Foránea (FK)
-            $table->foreign('role_id')->references('id')->on('roles');
+            // Datos personales
+            $table->string('first_name', 50);
+            $table->string('last_name', 50);
+            $table->string('maternal_last_name', 50)->nullable();
+
+            // Credenciales y contacto
+            $table->string('email', 120)->unique();
+            // Si prefieres "password_hash", cámbialo aquí y en tu modelo:
+            $table->string('password', 255);
+            $table->string('phone', 20)->unique();
+
+            // Rol y estado
+            $table->foreignId('role_id')
+                  ->constrained('roles')
+                  ->cascadeOnUpdate()
+                  ->restrictOnDelete();
+
+            $table->boolean('is_active')->default(true);
+
+            // Tokens (útil si usas login con remember me)
+            $table->rememberToken();
+
+            // Auditoría
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
