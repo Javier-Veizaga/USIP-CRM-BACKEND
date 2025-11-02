@@ -2,16 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Response;
 use Illuminate\Database\Seeder;
 
 class ResponseSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        foreach ([
+            ['response' => 'Positive',  'description' => null],
+            ['response' => 'Negative',  'description' => null],
+            ['response' => 'Pending',   'description' => null],
+        ] as $row) {
+            Response::updateOrCreate(['response' => $row['response']], $row);
+        }
     }
 }
+

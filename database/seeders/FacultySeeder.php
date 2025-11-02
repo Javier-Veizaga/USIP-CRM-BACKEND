@@ -2,16 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Faculty;
 use Illuminate\Database\Seeder;
 
 class FacultySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        foreach ([
+            ['name' => 'Engineering'],
+            ['name' => 'Health Sciences'],
+            ['name' => 'Business'],
+            ['name' => 'Education'],
+        ] as $row) {
+            Faculty::updateOrCreate(['name' => $row['name']], $row);
+        }
     }
 }

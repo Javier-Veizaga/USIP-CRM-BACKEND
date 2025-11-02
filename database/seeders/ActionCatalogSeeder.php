@@ -2,16 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ActionCatalog;
 use Illuminate\Database\Seeder;
 
 class ActionCatalogSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        foreach ([
+            ['name' => 'Call',     'description' => 'Teléfono'],
+            ['name' => 'Message',  'description' => 'WhatsApp/SMS'],
+            ['name' => 'Visit',    'description' => 'Visita ATN'],
+            ['name' => 'Meeting',  'description' => 'Cita/ATP'],
+        ] as $row) {
+            ActionCatalog::updateOrCreate(['name' => $row['name']], $row);
+        }
     }
 }

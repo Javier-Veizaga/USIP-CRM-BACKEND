@@ -2,16 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\AgreementStatus;
 use Illuminate\Database\Seeder;
 
 class AgreementStatusSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        foreach ([
+            ['status' => 'ACTIVE'],
+            ['status' => 'CANCELLED'],
+        ] as $row) {
+            AgreementStatus::updateOrCreate(['status' => $row['status']], $row);
+        }
     }
 }
