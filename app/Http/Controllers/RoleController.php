@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Resources\RoleResource;
+use App\Models\Role;
+use Illuminate\Database\QueryException;
+use Symfony\Component\HttpFoundation\Response;
 
 class RoleController extends Controller
 {
@@ -11,15 +17,20 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::ordeBy('id')->get();
+        return RoleResource::collection($roles);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(StoreRoleRequest $request)
     {
-        //
+        $role = Role::create($request->validated());
+        return (new RoleResource($role))
+            ->additional(['message' => 'Role created'])
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
@@ -33,9 +44,9 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Role $role)
     {
-        //
+        return new RoleResource($role);
     }
 
     /**
@@ -49,16 +60,30 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
-        //
+        $role->update($request->validated());
+
+        return (new RoleResource($role))
+            ->additional(['message' => 'Role updated']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        try {
+            $role->delete();
+            return response()->noContent();
+        } catch (QueryException $e){
+            
+            if($e -> getCode() === '23503'){
+                return response()->json([
+                    'message' => 'No se puede eliminar el rol: está en uso por uno o más usuarios.'
+                ], Response::HTTP_CONFLICT);
+            }
+            throw $e;
+        }
     }
 }
