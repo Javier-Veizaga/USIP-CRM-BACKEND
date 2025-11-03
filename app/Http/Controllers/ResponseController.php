@@ -2,63 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreResponseRequest;
+use App\Http\Requests\UpdateResponseRequest;
+use App\Http\Resources\ResponseResource;
+use App\Models\Response;
+use Illuminate\Database\QueryException;
+use Symfony\Component\HttpFoundation\Response as Http;
 
 class ResponseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $rows = Response::orderBy('response')->get();
+        return ResponseResource::collection($rows);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreResponseRequest $request)
     {
-        //
+        $row = Response::create($request->validated());
+
+        return (new ResponseResource($row))
+            ->additional(['message' => 'Response created'])
+            ->response()
+            ->setStatusCode(Http::HTTP_CREATED);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(Response $response)
     {
-        //
+        return new ResponseResource($response);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(UpdateResponseRequest $request, Response $response)
     {
-        //
+        $response->update($request->validated());
+
+        return (new ResponseResource($response))
+            ->additional(['message' => 'Response updated']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(Response $response)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        try {
+            $response->delete();
+            return response()->noContent();
+        } catch (QueryException $e) {
+            if ($e->getCode() === '23503') {
+                return response()->json([
+                    'message' => 'No se puede eliminar: esta respuesta es referenciada por acciones.'
+                ], Http::HTTP_CONFLICT);
+            }
+            throw $e;
+        }
     }
 }
