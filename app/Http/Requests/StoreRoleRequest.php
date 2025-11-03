@@ -22,7 +22,14 @@ class StoreRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'code' => ['required', 'string', 'max:30', 'unique:roles,code'],
+            'name' => ['required', 'string', 'max:50'],
         ];
+    }
+
+    public function prepareForValidation(): void 
+    {
+        if ($this->has('code')) $this->merge(['code' => strtolower(trim($this->code))]);
+        if ($this->has('name')) $this->merge(['name' => trim($this->name)]);
     }
 }
