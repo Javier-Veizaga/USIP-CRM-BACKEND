@@ -11,4 +11,4 @@ use App\Http\Controllers\UserController;
 Route::apiResource('users', UserController::class);
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('action-catalog', ActionCatalogController::class);
-Route::apiResource('response', ResponseController::class);
+Route::apiResource('responses', ResponseController::class);
