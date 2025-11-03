@@ -11,8 +11,8 @@ class ResponseSeeder extends Seeder
     {
         foreach ([
             ['response' => 'Positive',  'description' => "El prospecto mostró interés."],
-            ['response' => 'Negative',  'description' => "El prospecto declinó formalmente el interés."],
-            ['response' => 'Pending',   'description' => "El prospecto necesita consultar con terceros (padres, pareja, empleador) o pidió ser contactado en una fecha específica para tomar la decisión."],
+            ['response' => 'Negative',  'description' => "El prospecto no mostro interés y declinó formalmente el ingreso."],
+            ['response' => 'Pending',   'description' => "El prospecto necesita consultar con terceros "],
         ] as $row) {
             Response::updateOrCreate(['response' => $row['response']], $row);
         }
