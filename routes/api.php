@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\ActionController;
 use App\Http\Controllers\ActionCatalogController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\RoleController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StatusController;
+use Illuminate\Support\Facades\Route;
 
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('action-catalog', ActionCatalogController::class);
 Route::apiResource('responses', ResponseController::class);
+Route::apiResource('statuses', StatusController::class);

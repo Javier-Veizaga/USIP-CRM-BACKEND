@@ -2,63 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreStatusRequest;
+use App\Http\Requests\UpdateStatusRequest;
+use App\Http\Resources\StatusResource;
+use App\Models\Status;
+use Illuminate\Database\QueryException;
+use Symfony\Component\HttpFoundation\Response;
 
 class StatusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $rows = Status::orderBy('status')->get();
+        return StatusResource::collection($rows);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreStatusRequest $request)
     {
-        //
+        $row = Status::create($request->validated());
+
+        return (new StatusResource($row))
+            ->additional(['message' => 'Status created'])
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(Status $status)
     {
-        //
+        return new StatusResource($status);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(UpdateStatusRequest $request, Status $status)
     {
-        //
+        $status->update($request->validated());
+
+        return (new StatusResource($status))
+            ->additional(['message' => 'Status updated']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(Status $status)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        try {
+            $status->delete();
+            return response()->noContent();
+        } catch (QueryException $e) {
+            if ($e->getCode() === '23503') {
+                return response()->json([
+                    'message' => 'Cannot delete: this status is referenced by prospects or history.'
+                ], Response::HTTP_CONFLICT);
+            }
+            throw $e;
+        }
     }
 }

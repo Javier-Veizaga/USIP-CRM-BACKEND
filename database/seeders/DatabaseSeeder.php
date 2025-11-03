@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ActionCatalogSeeder::class,
             ResponseSeeder::class,
+            StatusSeeder::class,
+            
         ]);
     }
 }
