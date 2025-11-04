@@ -10,10 +10,11 @@ class FacultySeeder extends Seeder
     public function run(): void
     {
         foreach ([
-            ['name' => 'Engineering'],
-            ['name' => 'Health Sciences'],
-            ['name' => 'Business'],
-            ['name' => 'Education'],
+            ['name' => 'Ciencias Económicas y Empresariales '],
+            ['name' => 'Ingeniería'],
+            ['name' => 'Ciencias y Artes'],
+            ['name' => 'Ciencias Sociales'],
+            ['name' => 'Ciencias del Medio Ambiente'],
         ] as $row) {
             Faculty::updateOrCreate(['name' => $row['name']], $row);
         }

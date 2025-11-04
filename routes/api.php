@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\DataSourceController;
+use App\Http\Controllers\FacultyController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,3 +16,4 @@ Route::apiResource('action-catalog', ActionCatalogController::class);
 Route::apiResource('responses', ResponseController::class);
 Route::apiResource('statuses', StatusController::class);
 Route::apiResource('data-sources', DataSourceController::class);
+Route::apiResource('faculties', FacultyController::class);
