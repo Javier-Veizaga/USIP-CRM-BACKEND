@@ -13,7 +13,8 @@ class SchoolShiftController extends Controller
 {
     public function index()
     {
-        return SchoolShiftResource::collection(SchoolShift::orderBy('name')->get());
+        $rows = SchoolShift::orderBy('name')->get();
+        return SchoolShiftResource::collection($rows);
     }
 
     public function store(StoreSchoolShiftRequest $request)
