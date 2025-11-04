@@ -10,6 +10,7 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\SchoolShiftController;
 use App\Http\Controllers\SchoolManagementController;
 use App\Http\Controllers\AgreementTypeController;
+use App\Http\Controllers\AgreementStatusController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,3 +24,4 @@ Route::apiResource('faculties', FacultyController::class);
 Route::apiResource('school-shifts', SchoolShiftController::class);
 Route::apiResource('school-managements', SchoolManagementController::class);
 Route::apiResource('agreement-types', AgreementTypeController::class);
+Route::apiResource('agreement-statuses', AgreementStatusController::class);

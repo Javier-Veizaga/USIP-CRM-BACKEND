@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             SchoolShiftSeeder::class,
             SchoolManagementSeeder::class,
             AgreementTypeSeeder::class,
+            AgreementStatusSeeder::class,
             
         ]);
     }

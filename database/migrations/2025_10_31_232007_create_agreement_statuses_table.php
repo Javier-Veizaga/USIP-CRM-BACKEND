@@ -9,7 +9,9 @@ class CreateAgreementStatusesTable extends Migration
     {
         Schema::create('agreement_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('status', 20);
+            $table->string('name', 30)->unique();
+            $table->text('description')->nullable();
+            
             $table->timestamps();
         });
     }

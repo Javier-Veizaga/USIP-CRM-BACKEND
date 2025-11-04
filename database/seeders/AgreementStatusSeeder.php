@@ -10,10 +10,11 @@ class AgreementStatusSeeder extends Seeder
     public function run(): void
     {
         foreach ([
-            ['status' => 'ACTIVE'],
-            ['status' => 'CANCELLED'],
+            ['name' => 'Active',    'description' => 'Convenio vigente'],
+            ['name' => 'Cancelled', 'description' => 'Convenio cancelado'],
+            ['name' => 'Expired',   'description' => 'Convenio vencido'],
         ] as $row) {
-            AgreementStatus::updateOrCreate(['status' => $row['status']], $row);
+            AgreementStatus::updateOrCreate(['name' => $row['name']], $row);
         }
     }
 }
