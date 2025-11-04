@@ -9,6 +9,7 @@ class SchoolManagement extends Model
 {
     use HasFactory;
 
+    protected $table = 'school_management';
     protected $fillable = ['name', 'description'];
 
     public function setNameAttribute($v): void
