@@ -10,10 +10,12 @@ class AgreementTypeSeeder extends Seeder
     public function run(): void
     {
         foreach ([
-            ['title' => 'Full',    'description' => 'Convenio total'],
-            ['title' => 'Partial', 'description' => 'Convenio parcial'],
+            ['name' => 'Academic',     'description' => 'Convenios académicos generales'],
+            ['name' => 'Discount',     'description' => 'Convenios de descuentos / becas'],
+            ['name' => 'Internship',   'description' => 'Prácticas y pasantías'],
+            ['name' => 'Cooperation',  'description' => 'Cooperación institucional'],
         ] as $row) {
-            AgreementType::updateOrCreate(['title' => $row['title']], $row);
+            AgreementType::updateOrCreate(['name' => $row['name']], $row);
         }
     }
 }
