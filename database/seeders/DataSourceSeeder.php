@@ -10,10 +10,13 @@ class DataSourceSeeder extends Seeder
     public function run(): void
     {
         foreach ([
-            ['name' => 'Organic'],
-            ['name' => 'Referral'],
-            ['name' => 'Campaign'],
-            ['name' => 'Walk-in'],
+            ['name' => 'Búsqueda Orgánica'],
+            ['name' => 'Publicidad en Buscadores'],
+            ['name' => 'Redes Sociales Orgánicas'],
+            ['name' => 'Publicidad en Redes Sociales'],
+            ['name' => 'Recomendación y Contactos Personales'],
+            ['name' => 'Eventos y Presencia Offline'],
+            ['name' => 'Otros Canales'],
         ] as $row) {
             DataSource::updateOrCreate(['name' => $row['name']], $row);
         }
