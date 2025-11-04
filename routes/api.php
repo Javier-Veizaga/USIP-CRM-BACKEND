@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\DataSourceController;
 use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\SchoolShiftController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,3 +18,4 @@ Route::apiResource('responses', ResponseController::class);
 Route::apiResource('statuses', StatusController::class);
 Route::apiResource('data-sources', DataSourceController::class);
 Route::apiResource('faculties', FacultyController::class);
+Route::apiResource('school-shifts', SchoolShiftController::class);

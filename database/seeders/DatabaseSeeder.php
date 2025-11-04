@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ResponseSeeder::class,
             StatusSeeder::class,
             FacultySeeder::class,
+            SchoolShiftSeeder::class,
             
         ]);
     }
