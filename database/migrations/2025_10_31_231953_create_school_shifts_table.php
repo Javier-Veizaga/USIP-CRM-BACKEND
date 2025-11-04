@@ -9,7 +9,7 @@ class CreateSchoolShiftsTable extends Migration
     {
         Schema::create('school_shifts', function (Blueprint $table) {
             $table->id();
-            $table->string('shift', 30)->unique();
+            $table->string('name', 30)->unique();
             $table->text('description')->nullable();
             $table->timestamps();
         });

@@ -10,11 +10,11 @@ class SchoolManagementSeeder extends Seeder
     public function run(): void
     {
         foreach ([
-            ['term' => 'public',  'description' => 'Fiscal'],
-            ['term' => 'private', 'description' => 'Privado'],
-            ['term' => 'hybrid',  'description' => 'Convenio/Híbrido'],
+            ['name' => 'public',  'description' => 'Fiscal'],
+            ['name' => 'private', 'description' => 'Privado'],
+            ['name' => 'hybrid',  'description' => 'Convenio/Híbrido'],
         ] as $row) {
-            SchoolManagement::updateOrCreate(['term' => $row['term']], $row);
+            SchoolManagement::updateOrCreate(['name' => $row['name']], $row);
         }
     }
 }

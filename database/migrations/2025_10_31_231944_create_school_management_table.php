@@ -9,7 +9,7 @@ class CreateSchoolManagementTable extends Migration
     {
         Schema::create('school_management', function (Blueprint $table) {
             $table->id();
-            $table->string('term', 30)->unique();
+            $table->string('name', 30)->unique();
             $table->text('description')->nullable();
             $table->timestamps();
         });
