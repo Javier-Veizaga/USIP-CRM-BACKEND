@@ -8,6 +8,7 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\DataSourceController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\SchoolShiftController;
+use App\Http\Controllers\SchoolManagementController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,3 +20,4 @@ Route::apiResource('statuses', StatusController::class);
 Route::apiResource('data-sources', DataSourceController::class);
 Route::apiResource('faculties', FacultyController::class);
 Route::apiResource('school-shifts', SchoolShiftController::class);
+Route::apiResource('school-managements', SchoolManagementController::class);

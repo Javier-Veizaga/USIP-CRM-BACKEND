@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             StatusSeeder::class,
             FacultySeeder::class,
             SchoolShiftSeeder::class,
+            SchoolManagementSeeder::class,
             
         ]);
     }
