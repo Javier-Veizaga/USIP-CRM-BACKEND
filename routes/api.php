@@ -14,6 +14,7 @@ use App\Http\Controllers\AgreementStatusController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\ProspectStatusHistoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,3 +36,8 @@ Route::get('courses/meta', [CourseController::class, 'meta']);
 Route::apiResource('prospects', ProspectController::class);
 //Usalo ronal! :)
 Route::get('prospects/meta', [ProspectController::class, 'meta']);
+// listar historial de un prospecto
+Route::get('prospects/{prospect}/status-history', [ProspectStatusHistoryController::class, 'index']);
+
+// cambiar estado (crear historial + actualizar snapshot)
+Route::post('prospects/{prospect}/status', [ProspectStatusHistoryController::class, 'store']);
