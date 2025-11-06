@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             SchoolManagementSeeder::class,
             AgreementTypeSeeder::class,
             AgreementStatusSeeder::class,
+            SchoolSeeder::class,
             
         ]);
     }

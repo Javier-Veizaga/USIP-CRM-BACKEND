@@ -2,63 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
+use App\Http\Resources\CourseResource;
+use App\Models\Course;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class CourseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $rows = Course::with('faculty')->orderBy('id','desc')->get();
+        return CourseResource::collection($rows);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreCourseRequest $request)
     {
-        //
+        // En la migración ya tenés unique(name, faculty_id)
+        $row = Course::create($request->validated());
+        $row->load('faculty');
+
+        return (new CourseResource($row))
+            ->additional(['message' => 'Course created'])
+            ->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show(Course $course)
     {
-        //
+        $course->load('faculty');
+        return new CourseResource($course);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(UpdateCourseRequest $request, Course $course)
     {
-        //
+        $course->update($request->validated());
+        $course->load('faculty');
+
+        return (new CourseResource($course))
+            ->additional(['message' => 'Course updated']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(Course $course)
     {
-        //
+        $course->delete();
+        return response()->noContent();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    //! Ronal para vos, esto te va a sarvir para un select
+    //? Te lo dejo si te sirve.
+    public function meta()
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json([
+            'faculties' => \App\Models\Faculty::orderBy('id')->get(['id','name','semesters']),
+        ]);
     }
 }
