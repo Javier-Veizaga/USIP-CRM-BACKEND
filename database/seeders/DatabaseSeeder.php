@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             AgreementTypeSeeder::class,
             AgreementStatusSeeder::class,
             SchoolSeeder::class,
+            DataSourceSeeder::class,
+            CourseSeeder::class,
             
         ]);
     }
