@@ -12,7 +12,7 @@ class StoreSchoolRequest extends FormRequest
     {
         return [
             'name'                 => ['required','string','max:150','unique:schools,name'],
-            'school_management_id' => ['required','integer','exists:school_managements,id'],
+            'school_management_id' => ['required','integer','exists:school_management,id'],
             'school_shift_id'      => ['required','integer','exists:school_shifts,id'],
             'agreement_type_id'    => ['nullable','integer','exists:agreement_types,id'],
             'agreement_status_id'  => ['nullable','integer','exists:agreement_statuses,id'],
