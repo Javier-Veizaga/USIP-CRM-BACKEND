@@ -12,6 +12,7 @@ use App\Http\Controllers\SchoolManagementController;
 use App\Http\Controllers\AgreementTypeController;
 use App\Http\Controllers\AgreementStatusController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProspectController;
 use App\Http\Controllers\SchoolController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,6 @@ Route::apiResource('schools', SchoolController::class);
 Route::apiResource('courses', CourseController::class);
 //Ruta para ronal,
 Route::get('courses/meta', [CourseController::class, 'meta']);
+Route::apiResource('prospects', ProspectController::class);
+//Usalo ronal! :)
+Route::get('prospects/meta', [ProspectController::class, 'meta']);
