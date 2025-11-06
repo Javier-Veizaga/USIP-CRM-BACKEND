@@ -2,63 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ChangeProspectStatusRequest;
+use App\Models\Prospect;
+use App\Models\ProspectStatusHistory;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProspectStatusHistoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // GET /prospects/{prospect}/status-history
+    public function index(Prospect $prospect)
     {
-        //
+        $rows = $prospect->statusHistory()
+            ->with(['status:id,status','user:id,email'])
+            ->orderByDesc('id')
+            ->get();
+
+        return response()->json($rows);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // POST /prospects/{prospect}/status
+    public function store(ChangeProspectStatusRequest $request, Prospect $prospect)
     {
-        //
-    }
+        $data = $request->validated();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        return DB::transaction(function () use ($prospect, $data) {
+            // 1) Guardar historial
+            $history = ProspectStatusHistory::create([
+                'prospect_id' => $prospect->id,
+                'status_id'   => $data['status_id'],
+                'user_id'     => $data['user_id'], // si usas auth: auth()->id()
+                'description' => $data['description'] ?? null,
+            ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+            // 2) Actualizar snapshot del prospecto
+            $prospect->update(['status_id' => $data['status_id']]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+            // 3) Responder con ambos
+            $prospect->load(['school','origin','executive','status']);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            return response()->json([
+                'message'  => 'Status updated',
+                'history'  => $history->load(['status:id,status','user:id,email']),
+                'prospect' => $prospect,
+            ], Response::HTTP_CREATED);
+        });
     }
 }
